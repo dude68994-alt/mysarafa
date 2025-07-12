@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Sarafa Community</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body.login-bg {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #2f95ff 0%, #6dd5ed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: rgba(255,255,255,0.95);
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(47,149,255,0.10), 0 1.5px 6px rgba(0,0,0,0.04);
+            max-width: 350px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .login-title {
+            text-align: center;
+            color: #2f95ff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .login-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .login-field label {
+            font-size: 15px;
+            color: #374151;
+            font-weight: 500;
+        }
+        .login-field input {
+            padding: 10px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+            background: #f9fafb;
+        }
+        .login-field input:focus {
+            border: 1.5px solid #2f95ff;
+            background: #fff;
+        }
+        .login-btn {
+            margin-top: 10px;
+            padding: 12px 0;
+            background: linear-gradient(90deg, #2f95ff 60%, #6dd5ed 100%);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(47,149,255,0.10);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .login-btn:hover {
+            background: linear-gradient(90deg, #1e7fd6 60%, #4fc3e8 100%);
+            box-shadow: 0 4px 16px rgba(47,149,255,0.13);
+        }
+        .login-signup-prompt {
+            margin-top: 18px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 15px;
+        }
+        .signup-link {
+            color: #2f95ff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+            transition: color 0.18s;
+        }
+        .signup-link:hover {
+            color: #1e7fd6;
+            text-decoration: underline;
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 24px 8px;
+                border-radius: 10px;
+            }
+            .login-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body class="login-bg">
+    <div class="login-container">
+        <form class="login-form" id="signupForm">
+            <h2 class="login-title">Create Account</h2>
+            <div class="login-field">
+                <label for="signupName">Name</label>
+                <input type="text" id="signupName" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="login-field">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="login-field">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="login-field">
+                <label for="signupConfirmPassword">Confirm Password</label>
+                <input type="password" id="signupConfirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" class="login-btn">Sign Up</button>
+        </form>
+        <div class="login-signup-prompt">
+            Already have an account? <a href="login.html" class="signup-link">Login</a>
+        </div>
+    </div>
+    <script>
+        // Handle invitation parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const inviteToken = urlParams.get('invite');
+            const inviteEmail = urlParams.get('email');
+            const inviteName = urlParams.get('name');
+            
+            // If invitation parameters exist, pre-fill the form
+            if (inviteToken && inviteEmail && inviteName) {
+                document.getElementById('signupName').value = decodeURIComponent(inviteName);
+                document.getElementById('signupEmail').value = decodeURIComponent(inviteEmail);
+                
+                // Add a visual indicator that this is an invited user
+                const form = document.getElementById('signupForm');
+                const title = document.querySelector('.login-title');
+                
+                // Update title to show invitation
+                title.innerHTML = 'Complete Your Registration <br><small style="font-size: 0.8rem; color: #6b7280; font-weight: normal;">You\'ve been invited to join Sarafa Community</small>';
+                
+                // Add invitation token to form
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = 'inviteToken';
+                tokenInput.value = inviteToken;
+                form.appendChild(tokenInput);
+                
+                // Style the form to show it's an invitation
+                form.style.border = '2px solid #2f95ff';
+                form.style.borderRadius = '8px';
+                form.style.padding = '20px';
+                form.style.backgroundColor = '#f8fafc';
+            }
+            
+            // Handle form submission
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('signupName').value.trim();
+                const email = document.getElementById('signupEmail').value.trim();
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                const inviteToken = document.querySelector('input[name="inviteToken"]')?.value;
+                
+                // Validate form
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters long');
+                    return;
+                }
+                
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                // Show success message
+                if (inviteToken) {
+                    alert(`Welcome to Sarafa Community, ${name}! Your account has been created successfully.`);
+                } else {
+                    alert(`Account created successfully for ${name}!`);
+                }
+                
+                // Redirect to login page
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 

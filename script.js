@@ -334,55 +334,224 @@ if (addNewBtn && addMemberModal && closeAddMemberModal && addMemberForm) {
     // Get form values
     const name = document.getElementById('memberName').value.trim();
     const mobileNumber = document.getElementById('memberNumber').value.trim();
-    const shopName = document.getElementById('shopName').value.trim();
-    const address = document.getElementById('memberAddress').value.trim();
     const email = document.getElementById('memberEmail').value.trim();
     
     // Validate required fields
-    if (!name || !mobileNumber || !shopName || !address) {
+    if (!name || !mobileNumber || !email) {
       alert('Please fill in all required fields');
       return;
     }
     
-    // Add new member to table
-    if (membersTable) {
-      const newRow = document.createElement('tr');
-      const srNo = membersTable.children.length + 1;
-      
-      newRow.innerHTML = `
-        <td>${srNo}</td>
-        <td>${name}</td>
-        <td>${mobileNumber}</td>
-        <td>${shopName}</td>
-        <td>${address}</td>
-        <td>
-          <div class="action-dropdown">
-            <button class="action-btn">
-              <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu">
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-edit"></i> Edit
-              </a>
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-trash"></i> Delete
-              </a>
-            </div>
-          </div>
-        </td>
-      `;
-      
-      membersTable.appendChild(newRow);
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address');
+      return;
     }
     
+    // Generate invitation link
+    const invitationLink = generateInvitationLink(name, email);
+    
+    // Send invitation email
+    sendInvitationEmail(name, email, invitationLink);
+    
     // Show success message
-    alert(`Member "${name}" added successfully!`);
+    alert(`Invitation sent successfully to ${email}!`);
     
     // Close modal and reset form
     addMemberModal.style.display = 'none';
     addMemberForm.reset();
   };
 }
+
+// Email invitation functions
+function generateInvitationLink(name, email) {
+  // Generate a unique token for the invitation
+  const token = btoa(`${name}-${email}-${Date.now()}`).replace(/[^a-zA-Z0-9]/g, '');
+  const baseUrl = window.location.origin + window.location.pathname.replace('Index.html', '');
+  return `${baseUrl}signup.html?invite=${token}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
+}
+
+function sendInvitationEmail(name, email, invitationLink) {
+  // Create email content
+  const emailSubject = "You're invited to join Sarafa Community!";
+  const emailBody = `
+Dear ${name},
+
+You have been invited to join the Sarafa Community!
+
+Please click the following link to complete your registration:
+${invitationLink}
+
+This invitation link is valid for 7 days.
+
+Best regards,
+Sarafa Community Team
+  `.trim();
+
+  // Method 1: Try to use mailto link (opens user's default email client)
+  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+  
+  // Try to open the default email client
+  try {
+    window.open(mailtoLink, '_blank');
+  } catch (error) {
+    console.log('Could not open email client:', error);
+  }
+
+  // Method 2: Copy invitation link to clipboard for manual sending
+  navigator.clipboard.writeText(invitationLink).then(() => {
+    console.log('Invitation link copied to clipboard');
+  }).catch(err => {
+    console.log('Could not copy to clipboard:', err);
+  });
+
+  // Method 3: Show the invitation link in a modal for manual copying
+  showInvitationModal(name, email, invitationLink);
+}
+
+function showInvitationModal(name, email, invitationLink) {
+  // Create modal to show invitation details
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  `;
+
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+  `;
+
+  modalContent.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h3 style="margin: 0; color: #1f2937;">Invitation Sent Successfully!</h3>
+      <button onclick="this.closest('.invitation-modal').remove()" style="
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #6b7280;
+      ">&times;</button>
+    </div>
+    
+    <div style="margin-bottom: 16px;">
+      <p style="margin: 8px 0; color: #374151;"><strong>Recipient:</strong> ${name} (${email})</p>
+      <p style="margin: 8px 0; color: #374151;"><strong>Invitation Link:</strong></p>
+      <div class="invitation-link-display">${invitationLink}</div>
+    </div>
+    
+    <div class="invitation-actions">
+      <button onclick="copyInvitationLink('${invitationLink}')" class="copy-btn">Copy Link</button>
+      
+      <button onclick="window.open('mailto:${email}?subject=${encodeURIComponent('You\'re invited to join Sarafa Community!')}&body=${encodeURIComponent(`Dear ${name},\n\nYou have been invited to join the Sarafa Community!\n\nPlease click the following link to complete your registration:\n${invitationLink}\n\nThis invitation link is valid for 7 days.\n\nBest regards,\nSarafa Community Team`)}', '_blank')" class="email-btn">Send Email</button>
+      
+      <button onclick="this.closest('.invitation-modal').remove()" class="close-btn">Close</button>
+    </div>
+  `;
+
+  modal.className = 'invitation-modal';
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
+function copyInvitationLink(link) {
+  navigator.clipboard.writeText(link).then(() => {
+    // Show a more user-friendly notification
+    showNotification('Invitation link copied to clipboard!', 'success');
+  }).catch(err => {
+    console.log('Could not copy to clipboard:', err);
+    showNotification('Could not copy to clipboard. Please copy the link manually.', 'error');
+  });
+}
+
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    z-index: 3000;
+    animation: slideInRight 0.3s ease-out;
+    max-width: 300px;
+    word-wrap: break-word;
+  `;
+  
+  // Set background color based on type
+  if (type === 'success') {
+    notification.style.backgroundColor = '#10b981';
+  } else if (type === 'error') {
+    notification.style.backgroundColor = '#ef4444';
+  } else {
+    notification.style.backgroundColor = '#2f95ff';
+  }
+  
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight 0.3s ease-in';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// Add CSS animations for notifications
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(notificationStyles);
 
 const func=(a,b)=>a+b;
 
