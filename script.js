@@ -1,3 +1,327 @@
+// Community Leader Panel System
+// Role-based access control
+const USER_ROLES = {
+  MEMBER: 'member',
+  LEADER: 'leader',
+  ADMIN: 'admin'
+};
+
+// Current user role (in a real app, this would come from authentication)
+let currentUserRole = USER_ROLES.LEADER; // For demo purposes, set as leader
+let currentUser = {
+  name: 'Piyush Rathore',
+  email: 'Piyush@email.com',
+  role: currentUserRole,
+  isLeader: currentUserRole === USER_ROLES.LEADER || currentUserRole === USER_ROLES.ADMIN
+};
+
+// Function to check if user is a leader
+function isUserLeader() {
+  return currentUser.isLeader;
+}
+
+// Function to show/hide leader elements
+function toggleLeaderElements() {
+  const leaderElements = document.querySelectorAll('.leader-only');
+  const leaderMenuItems = document.querySelectorAll('.leader-menu-item');
+  
+  if (isUserLeader()) {
+    // Show leader elements
+    leaderElements.forEach(element => {
+      element.style.display = 'block';
+    });
+    
+    // Show leader menu items
+    leaderMenuItems.forEach(item => {
+      item.style.display = 'flex';
+    });
+    
+    // Update user info to show leader status
+    updateUserInfo();
+  } else {
+    // Hide leader elements
+    leaderElements.forEach(element => {
+      element.style.display = 'none';
+    });
+    
+    // Hide leader menu items
+    leaderMenuItems.forEach(item => {
+      item.style.display = 'none';
+    });
+  }
+}
+
+// Function to update user info display
+function updateUserInfo() {
+  const userNameElement = document.querySelector('.avatar-user-name');
+  const userEmailElement = document.querySelector('.avatar-user-email');
+  
+  if (userNameElement && userEmailElement) {
+    userNameElement.textContent = currentUser.name;
+    userEmailElement.textContent = currentUser.email;
+    
+    // Add leader badge if user is leader
+    if (isUserLeader()) {
+      const leaderBadge = document.createElement('span');
+      leaderBadge.className = 'leader-badge';
+      leaderBadge.textContent = 'Leader';
+      leaderBadge.style.cssText = `
+        background: #fbbf24;
+        color: #92400e;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+        margin-left: 8px;
+      `;
+      
+      // Remove existing badge if any
+      const existingBadge = userNameElement.querySelector('.leader-badge');
+      if (existingBadge) {
+        existingBadge.remove();
+      }
+      
+      userNameElement.appendChild(leaderBadge);
+    }
+  }
+}
+
+// Initialize leader panel system
+document.addEventListener('DOMContentLoaded', function() {
+  toggleLeaderElements();
+  
+  // Add role switcher for demo purposes
+  addRoleSwitcher();
+  
+  // Initialize leader action buttons
+  initializeLeaderActions();
+});
+
+// Initialize leader action buttons
+function initializeLeaderActions() {
+  const actionButtons = document.querySelectorAll('.action-btn');
+  
+  actionButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const action = this.textContent.toLowerCase();
+      
+      switch(action) {
+        case 'review (12)':
+          showApprovalModal();
+          break;
+        case 'create event':
+          showCreateEventModal();
+          break;
+        case 'post announcement':
+          showAnnouncementModal();
+          break;
+        case 'view reports':
+          showAnalyticsModal();
+          break;
+        default:
+          showNotification('Action not implemented yet', 'info');
+      }
+    });
+  });
+}
+
+// Show approval modal
+function showApprovalModal() {
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  `;
+
+  const modalContent = document.createElement('div');
+  modalContent.style.cssText = `
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+  `;
+
+  modalContent.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h3 style="margin: 0; color: #1f2937;">Pending Member Approvals</h3>
+      <button onclick="this.closest('.approval-modal').remove()" style="
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #6b7280;
+      ">&times;</button>
+    </div>
+    
+    <div style="margin-bottom: 16px;">
+      <p style="color: #6b7280; margin-bottom: 16px;">12 members are waiting for approval</p>
+      
+      <div style="max-height: 400px; overflow-y: auto;">
+        ${generateApprovalList()}
+      </div>
+    </div>
+    
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button onclick="approveAllMembers()" style="
+        padding: 8px 16px;
+        background-color: #10b981;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      ">Approve All</button>
+      
+      <button onclick="this.closest('.approval-modal').remove()" style="
+        padding: 8px 16px;
+        background-color: #6b7280;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      ">Close</button>
+    </div>
+  `;
+
+  modal.className = 'approval-modal';
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
+// Generate approval list
+function generateApprovalList() {
+  const members = [
+    { name: 'Rahul Sharma', email: 'rahul@email.com', date: '2024-01-15' },
+    { name: 'Priya Patel', email: 'priya@email.com', date: '2024-01-14' },
+    { name: 'Amit Kumar', email: 'amit@email.com', date: '2024-01-13' },
+    { name: 'Neha Singh', email: 'neha@email.com', date: '2024-01-12' },
+    { name: 'Vikram Mehta', email: 'vikram@email.com', date: '2024-01-11' }
+  ];
+
+  return members.map(member => `
+    <div style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: #f9fafb;
+    ">
+      <div>
+        <div style="font-weight: 600; color: #111827;">${member.name}</div>
+        <div style="font-size: 12px; color: #6b7280;">${member.email}</div>
+        <div style="font-size: 11px; color: #9ca3af;">Applied: ${member.date}</div>
+      </div>
+      <div style="display: flex; gap: 4px;">
+        <button onclick="approveMember('${member.name}')" style="
+          padding: 4px 8px;
+          background-color: #10b981;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        ">Approve</button>
+        <button onclick="rejectMember('${member.name}')" style="
+          padding: 4px 8px;
+          background-color: #ef4444;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        ">Reject</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Approve all members
+function approveAllMembers() {
+  showNotification('All members approved successfully!', 'success');
+  document.querySelector('.approval-modal').remove();
+}
+
+// Approve individual member
+function approveMember(name) {
+  showNotification(`${name} approved successfully!`, 'success');
+}
+
+// Reject individual member
+function rejectMember(name) {
+  showNotification(`${name} rejected.`, 'error');
+}
+
+// Show create event modal
+function showCreateEventModal() {
+  showNotification('Create Event feature coming soon!', 'info');
+}
+
+// Show announcement modal
+function showAnnouncementModal() {
+  showNotification('Announcement feature coming soon!', 'info');
+}
+
+// Show analytics modal
+function showAnalyticsModal() {
+  showNotification('Analytics feature coming soon!', 'info');
+}
+
+// Add role switcher for demo (remove in production)
+function addRoleSwitcher() {
+  const headerRight = document.querySelector('.header-right');
+  if (headerRight && isUserLeader()) {
+    const roleSwitcher = document.createElement('div');
+    roleSwitcher.style.cssText = `
+      position: relative;
+      margin-right: 16px;
+    `;
+    
+    const roleButton = document.createElement('button');
+    roleButton.textContent = 'Switch Role';
+    roleButton.style.cssText = `
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    `;
+    
+    roleButton.addEventListener('click', function() {
+      currentUserRole = currentUserRole === USER_ROLES.LEADER ? USER_ROLES.MEMBER : USER_ROLES.LEADER;
+      currentUser.isLeader = currentUserRole === USER_ROLES.LEADER || currentUserRole === USER_ROLES.ADMIN;
+      toggleLeaderElements();
+      showNotification(`Role switched to: ${currentUserRole}`, 'info');
+    });
+    
+    roleSwitcher.appendChild(roleButton);
+    headerRight.insertBefore(roleSwitcher, headerRight.firstChild);
+  }
+}
+
 // DOM Elements
 const menuItems = document.querySelectorAll('.menu-item');
 const searchInput = document.querySelector('.search-input');
@@ -557,125 +881,6 @@ const func=(a,b)=>a+b;
 
 console.log(func(2,3));
 
-// KYC Step-by-Step Form Functions
-let currentStep = 1;
-const totalSteps = 3;
-
-function nextStep(step) {
-  console.log('nextStep called with step:', step);
-  alert('nextStep function called with step: ' + step);
-  
-  // Simple validation
-  const currentSection = document.querySelector(`[data-step="${step}"]`);
-  if (!currentSection) {
-    alert('Section not found!');
-    return;
-  }
-  
-  const requiredInputs = currentSection.querySelectorAll('input[required]');
-  let hasEmptyField = false;
-  
-  requiredInputs.forEach(input => {
-    if (!input.value.trim()) {
-      input.style.borderColor = 'red';
-      hasEmptyField = true;
-    } else {
-      input.style.borderColor = '#d1d5db';
-    }
-  });
-  
-  if (hasEmptyField) {
-    alert('Please fill in all required fields before proceeding.');
-    return;
-  }
-  
-  // Move to next step
-  if (step < totalSteps) {
-    currentStep = step + 1;
-    
-    // Hide all sections
-    document.querySelectorAll('.kyc-section').forEach(section => {
-      section.style.display = 'none';
-    });
-    
-    // Show current section
-    const nextSection = document.querySelector(`[data-step="${currentStep}"]`);
-    if (nextSection) {
-      nextSection.style.display = 'block';
-    }
-    
-    updateProgress();
-  }
-}
-
-function prevStep(step) {
-  if (step > 1) {
-    currentStep = step - 1;
-    
-    // Hide all sections
-    document.querySelectorAll('.kyc-section').forEach(section => {
-      section.style.display = 'none';
-    });
-    
-    // Show current section
-    const prevSection = document.querySelector(`[data-step="${currentStep}"]`);
-    if (prevSection) {
-      prevSection.style.display = 'block';
-    }
-    
-    updateProgress();
-  }
-}
-
-function updateProgress() {
-  document.querySelectorAll('.progress-step').forEach((step, index) => {
-    const stepNumber = index + 1;
-    step.classList.remove('active', 'completed');
-    
-    if (stepNumber < currentStep) {
-      step.classList.add('completed');
-    } else if (stepNumber === currentStep) {
-      step.classList.add('active');
-    }
-  });
-}
-
-function validateStep(step) {
-  const currentSection = document.querySelector(`[data-step="${step}"]`);
-  const inputs = currentSection.querySelectorAll('input[required]');
-  
-  let isValid = true;
-  
-  inputs.forEach(input => {
-    if (!input.value.trim()) {
-      input.style.borderColor = '#ef4444';
-      isValid = false;
-    } else {
-      input.style.borderColor = '#d1d5db';
-    }
-  });
-  
-  if (!isValid) {
-    alert('Please fill in all required fields before proceeding.');
-  }
-  
-  return isValid;
-}
-
-function saveStepData(step) {
-  // Save form data to localStorage (optional)
-  const currentSection = document.querySelector(`[data-step="${step}"]`);
-  const formData = new FormData();
-  
-  currentSection.querySelectorAll('input').forEach(input => {
-    if (input.value) {
-      formData.append(input.name, input.value);
-    }
-  });
-  
-  // You can store this data or send it to server
-  console.log(`Step ${step} data saved`);
-}
 
 // KYC Form Functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -725,7 +930,7 @@ function addWorkerField() {
             <input type="tel" id="workerPhone${workerIndex}" name="workerPhone${workerIndex}" class="kyc-input" placeholder="Enter phone number">
         </div>
         <button type="button" class="remove-worker-btn" onclick="removeWorkerField(this)">
-            <i class="fas fa-trash"></i> Remove
+            <i class="fas fa-trash"></i>
         </button>
     `;
     
@@ -860,3 +1065,17 @@ if (logoutBtn) {
         alert('Logged out! (Implement actual logout logic here)');
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const profileBtn = document.getElementById('profileDetailsBtn');
+  const profileModal = document.getElementById('profileModal');
+  const closeProfileModal = document.getElementById('closeProfileModal');
+
+  if (profileBtn && profileModal && closeProfileModal) {
+    profileBtn.onclick = () => { profileModal.style.display = 'flex'; };
+    closeProfileModal.onclick = () => { profileModal.style.display = 'none'; };
+    profileModal.onclick = (e) => {
+      if (e.target === profileModal) profileModal.style.display = 'none';
+    };
+  }
+});
