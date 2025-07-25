@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarafa Community Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="community-name">
+                    <span>Sarafa Community</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <nav class="nav-menu">
+                    <a href="Index.html" class="nav-item">Home</a>
+                    <a href="Events-meetings.html" class="nav-item">Event</a>
+                    <a href="Member.html" class="nav-item">Members</a>
+                    <div class="nav-item dropdown">
+                        <span>More</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" placeholder="Search" class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                    <div class="avatar-dropdown" id="avatarDropdown" style="display: none;">
+                        <div class="avatar-user-info">
+                            <div class="avatar-user-pic"><i class="fas fa-user"></i></div>
+                            <div class="avatar-user-details">
+                                <span class="avatar-user-name">Piyush Rathore </span>
+                                <span class="avatar-user-email">Piyush@email.com</span>
+                            </div>  
+                        </div>
+                        <ul>
+                            <li id="profileDetailsBtn"><i class="fas fa-user-circle"></i> Profile</li>
+                            <li><i class="fas fa-cog"></i> Settings</li>
+                            <li id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-menu">
+          <a href="Index.html" class="menu-item active">
+            Dashboard
+          </a>
+          <a href="Member.html" class="menu-item">
+            Member
+            <i class="fas fa-plus"></i>
+          </a>
+          <a href="Discussion-chat.html" class="menu-item">
+             Discussion/Chat
+                <i class="fas fa-comment"></i>
+           
+          </a>
+          <a href="Announcement.html" class="menu-item">
+              Announcement
+                <i class="fas fa-bullhorn"></i>
+            
+          </a>
+          <a href="Events-meetings.html" class="menu-item">
+            
+                Events/Meetings
+                <i class="fas fa-calendar"></i>
+            
+          </a>
+          <a href="Monthly-membership.html" class="menu-item">
+            
+                Monthly Membership
+                <i class="fas fa-users"></i>
+          
+          </a>
+          <a href="KYC-verification.html" class="menu-item">
+              KYC Verification
+                <i class="fas fa-shield-alt"></i>
+            
+          </a>
+          <a href="Media-gallery.html" class="menu-item">
+                  Media Gallery
+                <i class="fas fa-images"></i>
+          </a>
+          <a href="Whatsapp-sms.html" class="menu-item">
+                  Whatsapp &SMS
+                <i class="fas fa-message"></i>
+            
+          </a>
+       </div>
+      </div>   
+      <main class="main-content">
+        <h1 class="page-title">Community Creation</h1>
+          
+          <form class="kyc-form" id="kycForm">
+              <!-- Section 1: Personal Information -->
+              <div class="kyc-section">
+                  <div class="kyc-section-title">
+                      <i class="fas fa-user"></i>Community Creation
+                  </div>
+                  <div class="kyc-fields-grid">
+                      <div class="form-group">
+                          <label for="communityName">Community Name *</label>
+                          <input type="text" id="communityName" name="communiyName" class="kyc-input" placeholder="Enter Community name" required>
+                      </div>
+                      <div class="form-group">
+                      <label for="community-type">Community Type</label>
+                      <select id="community-type" class="kyc-input">
+                        <option>Select</option>
+                        <option>Public</option>
+                        <option>Private</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                    <label for="Kyc-req">KYC Requirement</label>
+                      <select id="Kyc-req" class="kyc-input">
+                        <option>Select</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                      </select>
+                    </div>
+                      <div class="form-group full-width">
+                          <label for="Description">Group Description*</label>
+                          <textarea id="Description" name="Description" class="kyc-input" placeholder="Group Description" rows="3" required></textarea>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="cover-Image">Cover Photo*</label>
+                        <input type="file" id="cover-Image" name="cover-Image" class="kyc-input" accept="image/*,application/pdf" required>
+                        <small>Upload Image for Cover Photo</small>
+                    </div>
+                  </div>
+              </div>
+
+             
+
+              
+
+              <!-- Submit Button -->
+              <div class="kyc-submit-section">
+                  <button type="submit" class="kyc-submit-btn">
+                       Create Community
+                  </button>
+              </div>
+          </form>
+      </main> 
+          
+</div>
+<script src="script.js"></script>
+</body>
+</html>

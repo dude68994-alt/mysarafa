@@ -1065,7 +1065,7 @@ if (logoutBtn) {
         alert('Logged out! (Implement actual logout logic here)');
     });
 }
-
+//profile Function
 document.addEventListener('DOMContentLoaded', function() {
   const profileBtn = document.getElementById('profileDetailsBtn');
   const profileModal = document.getElementById('profileModal');
