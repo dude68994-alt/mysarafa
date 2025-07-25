@@ -289,38 +289,38 @@ function showAnalyticsModal() {
 }
 
 // Add role switcher for demo (remove in production)
-function addRoleSwitcher() {
-  const headerRight = document.querySelector('.header-right');
-  if (headerRight && isUserLeader()) {
-    const roleSwitcher = document.createElement('div');
-    roleSwitcher.style.cssText = `
-      position: relative;
-      margin-right: 16px;
-    `;
+// function addRoleSwitcher() {
+//   const headerRight = document.querySelector('.header-right');
+//   if (headerRight && isUserLeader()) {
+//     const roleSwitcher = document.createElement('div');
+//     roleSwitcher.style.cssText = `
+//       position: relative;
+//       margin-right: 16px;
+//     `;
     
-    const roleButton = document.createElement('button');
-    roleButton.textContent = 'Switch Role';
-    roleButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      cursor: pointer;
-    `;
+//     const roleButton = document.createElement('button');
+//     roleButton.textContent = 'Switch Role';
+//     roleButton.style.cssText = `
+//       background: rgba(255, 255, 255, 0.2);
+//       border: 1px solid rgba(255, 255, 255, 0.3);
+//       color: white;
+//       padding: 6px 12px;
+//       border-radius: 4px;
+//       font-size: 12px;
+//       cursor: pointer;
+//     `;
     
-    roleButton.addEventListener('click', function() {
-      currentUserRole = currentUserRole === USER_ROLES.LEADER ? USER_ROLES.MEMBER : USER_ROLES.LEADER;
-      currentUser.isLeader = currentUserRole === USER_ROLES.LEADER || currentUserRole === USER_ROLES.ADMIN;
-      toggleLeaderElements();
-      showNotification(`Role switched to: ${currentUserRole}`, 'info');
-    });
+//     roleButton.addEventListener('click', function() {
+//       currentUserRole = currentUserRole === USER_ROLES.LEADER ? USER_ROLES.MEMBER : USER_ROLES.LEADER;
+//       currentUser.isLeader = currentUserRole === USER_ROLES.LEADER || currentUserRole === USER_ROLES.ADMIN;
+//       toggleLeaderElements();
+//       showNotification(`Role switched to: ${currentUserRole}`, 'info');
+//     });
     
-    roleSwitcher.appendChild(roleButton);
-    headerRight.insertBefore(roleSwitcher, headerRight.firstChild);
-  }
-}
+//     roleSwitcher.appendChild(roleButton);
+//     headerRight.insertBefore(roleSwitcher, headerRight.firstChild);
+//   }
+// }
 
 // DOM Elements
 const menuItems = document.querySelectorAll('.menu-item');
