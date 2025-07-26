@@ -2554,3 +2554,97 @@ body.login-bg {
       font-size: 1.4rem;
   }
 }
+
+/* Community cration */
+/* Add to styles.css */
+.group-create-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 100%;
+  /* 
+   */
+  padding: 32px 24px;
+}
+
+/* .cover-photo-preview {
+  width: 100%;
+  height: 180px;
+  background: #f0f2f5;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-img {
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 8px;
+} */
+
+.cover-photo-preview {
+  width: 100%;
+  height: 80%; /* Increase height for a more Facebook-like look */
+  background: #f0f2f5;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  display: block;
+  max-width: none;
+  max-height: none;
+}
+
+.group-create-form .form-section {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  font-size: 16px;
+  background: #f7f8fa;
+  margin-bottom: 4px;
+}
+
+.form-hint {
+  font-size: 13px;
+  color: #65676b;
+}
+
+.form-btn {
+  background: #1877f2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form-btn:hover {
+  background: #165ec9;
+}
