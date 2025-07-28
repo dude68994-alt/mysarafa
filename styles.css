@@ -2586,7 +2586,7 @@ body.login-bg {
 
 .cover-photo-preview {
   width: 100%;
-  height: 80%; /* Increase height for a more Facebook-like look */
+  height: 100%; 
   background: #f0f2f5;
   border-radius: 8px 8px 0 0;
   margin-bottom: 24px;
@@ -2647,4 +2647,77 @@ body.login-bg {
 
 .form-btn:hover {
   background: #165ec9;
+}
+
+/*new*/
+.group-create-container {
+  display: flex;
+  gap: 32px;
+  padding: 24px;
+  background: #f5eded;
+  border-radius: 12px;
+}
+
+.group-create-form-section {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.group-create-preview-section {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cover-photo-preview {
+  width: 100%;
+  height: 450px;
+  background: #f0f2f5;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.group-details {
+  text-align: center;
+}
+
+.group-details h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  
+}
+
+.group-details p {
+  font-size: 14px;
+  color: #65676b;
+  
+}
+
+.group-nav{
+  display: flex;
+  gap: 30px;
+  margin-right: 120px;
+  
 }

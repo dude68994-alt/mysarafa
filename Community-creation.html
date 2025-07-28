@@ -106,53 +106,77 @@
           
           <!-- ...existing code... -->
 <main class="main-content">
-  <div class="group-create-card">
-    <!-- Cover Photo Preview -->
-   <div class="cover-photo-preview">
-  <img src="Assets/Images/diwali.jpg" alt="Cover Preview" class="cover-img" id="coverImagePreview">
-  <input type="file" id="coverImageInput" name="cover-Image" class="form-input" accept="image/*" style="display: none;">
-</div>
-    <form class="group-create-form" id="groupCreateForm">
-      <div class="form-section">
-        <label for="communityName" class="form-label">Group Name</label>
-        <input type="text" id="communityName" name="communityName" class="form-input" placeholder="Enter group name" required>
+  <div class="group-create-container">
+    <!-- Left Section: Input Fields -->
+    <div class="group-create-form-section">
+      <h2 class="form-title">Community Group</h2>
+      <form class="group-create-form" id="groupCreateForm">
+        <div class="form-section">
+          <label for="communityName" class="form-label">Community Name</label>
+          <input type="text" id="communityName" name="communityName" class="form-input" placeholder="Enter Community name" required>
+        </div>
+        <div class="form-section">
+          <label for="community-type" class="form-label">Choose Privacy</label>
+          <select id="community-type" class="form-input">
+            <option value="">Select</option>
+            <option value="Private">Private</option>
+            <option value="Public">Public</option>
+          </select>
+          <small class="form-hint">
+            Only members can see who's in the group and what they post. You can't change this group to public later.
+          </small>
+        </div>
+
+        <div class="Kyc">
+          <label for="KYC" class="form-label">KYC Verification</label>
+          <select id="KYC" class="form-input">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <small class="form-hint">
+            If you select "Yes", the group member have to do KYC verification.
+          </small>
+        </div>
+        <div class="Cover-photo">
+          <label for="coverImage" class="form-label">Cover Photo</label>
+          <input type="file" id="coverImage" name="coverImage" class="form-input" accept="image/*">
+          <small class="form-hint">
+            Upload a cover photo for your group. Recommended size: 820x312 pixels.
+          </small>
+        </div>
+        <div class="form-section">
+          <label for="Description" class="form-label">Community Description</label>
+          <textarea id="Description" name="Description" class="form-input" placeholder="Describe your group" rows="3"></textarea>
+        </div>
+        <div class="form-section">
+          <button type="submit" class="form-btn">Create Community</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Section: Cover Photo and Group Details -->
+    <div class="group-create-preview-section">
+      <div class="cover-photo-preview">
+        <img src="Assets/Images/diwali.jpg" alt="Cover Preview" class="cover-img" id="coverImagePreview">
+        <input type="file" id="coverImageInput" name="cover-Image" class="form-input" accept="image/*" style="display: none;">
       </div>
-      <div class="form-section">
-        <label for="community-type" class="form-label">Choose Privacy</label>
-        <select id="community-type" class="form-input">
-          <option value="">Select</option>
-          <option value="Private">Private</option>
-          <option value="Public">Public</option>
-        </select>
-        <small class="form-hint">
-          Only members can see who's in the group and what they post. You can't change this group to public later.
-        </small>
+      <div class="group-nav">
+        <h3>About </h3>
+        <h3>Post</h3>
+        <h3>Member</h3>
+        <h3>Events</h3>
       </div>
-      <div class="form-section">
-        <label for="Kyc-req" class="form-label">Kyc</label>
-        <select id="Kyc-req" class="form-input">
-          <option value="select">Select</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
+      <div class="group-details">
+        <h2 id="groupNamePreview">Community Name</h2>
+        <p id="groupPrivacyPreview">Community privacy · 1 member</p>
+        <p id="groupDescriptionPreview">Communiyt description will appear here...</p>
       </div>
-      <div class="form-section">
-        <label for="Description" class="form-label">Group Description</label>
-        <textarea id="Description" name="Description" class="form-input" placeholder="Describe your group" rows="3"></textarea>
-      </div>
-      <div class="form-section">
-        <label for="cover-Image" class="form-label">Cover Photo</label>
-        <input type="file" id="cover-Image" name="cover-Image" class="form-input" accept="image/*">
-        <small class="form-hint">Upload an image for your group cover photo.</small>
-      </div>
-      <div class="form-section">
-        <button type="submit" class="form-btn">Create Group</button>
-      </div>
-    </form>
+      
+    </div>
   </div>
 </main>
-<!-- ...existing code... -->
-      </main> 
+
           
 </div>
 
