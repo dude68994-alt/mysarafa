@@ -91,7 +91,7 @@ h6 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 39px;
 }
 
 h2 {
@@ -907,7 +907,7 @@ textarea {
     height: 129px;
   }
   .cs_height_130 {
-    height: 130px;
+    height: 230px;
   }
   .cs_height_131 {
     height: 131px;
@@ -1473,7 +1473,8 @@ textarea {
 
 .cs_fs_18 {
   font-size: 18px;
-  line-height: 1.56em;
+  line-height: 2.56em;
+  margin-top: 1px;
 }
 @media (max-width: 575px) {
   .cs_fs_18 {
@@ -1730,6 +1731,7 @@ textarea {
 
 .cs_accent_bg {
   background-color: var(--accent-color);
+  height: 300px;
 }
 
 .cs_gray_bg {
@@ -2217,8 +2219,8 @@ hr {
 -------------------------------------------*/
 .cs_page_heading {
   width: 100%;
-  height: 510px;
-  padding: 250px 0 80px;
+  height: 100%;
+  padding: 180px 0 80px;
 }
 @media (max-width: 991px) {
   .cs_page_heading {
@@ -2311,6 +2313,7 @@ hr {
   left: -183px;
   bottom: 0;
 }
+
 
 .cs_vector_shape_7 {
   width: 293px;
@@ -2742,7 +2745,7 @@ hr {
   align-items: center;
   gap: 100px;
   margin: 0 50px;
-  animation: slider-left 30s linear infinite;
+  animation: slider-left 10s linear infinite;
 }
 .cs_horizontal_slider_wrapper:hover .cs_brands_list {
   animation-play-state: paused;
@@ -3460,12 +3463,12 @@ hr {
 /*--------------------------------------------------------------
   10. Footer
 ----------------------------------------------------------------*/
-.cs_footer.cs_style_1 .cs_footer_top {
+/* .cs_footer.cs_style_1 .cs_footer_top {
   padding-bottom: 72px;
-}
+} */
 .cs_footer.cs_style_1 .cs_footer_top::after {
   content: "";
-  width: 100%;
+  width: 200px;
   height: 1px;
   background: var(--black-color);
   box-shadow: 0px 1px 2px 0px rgba(45, 54, 67, 0.05);
@@ -3531,7 +3534,7 @@ hr {
   margin-bottom: 30px;
 }
 .cs_footer.cs_style_1 .cs_footer_bottom {
-  padding: 22px 0;
+  padding: 20px 0;
 }
 .cs_footer.cs_style_1 .cs_newsletter.cs_style_1 {
   display: grid;
@@ -6979,3 +6982,47 @@ hr {
     font-size: 16px;
   }
 }/*# sourceMappingURL=style.css.map */
+
+.mockup-img1{
+padding-bottom: 40px;
+border: 0;
+max-width: 100%;
+height: 354px;}
+
+
+.cs_hero_animation {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.cs_hero_stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cs_stat_item {
+  text-align: center;
+}
+
+.cs_stat_item h3 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cs_stat_item p {
+  font-size: 14px;
+  color: #65676b;
+}
