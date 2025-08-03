@@ -7026,3 +7026,50 @@ height: 354px;}
   font-size: 14px;
   color: #65676b;
 }
+
+
+.cs_iconbox_wrapper_3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.cs_iconbox {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cs_iconbox:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cs_iconbox_icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f2f5;
+  border-radius: 50%;
+}
+
+.cs_iconbox_info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cs_iconbox_info p {
+  font-size: 14px;
+  color: #65676b;
+}
+
+.cs_card_desc {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
