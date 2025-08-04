@@ -4738,6 +4738,11 @@ hr {
 .cs_iconbox.cs_style_4:hover {
   border-color: #D324A8;
 }
+.cs_iconbox .cs_style_5:hover .cs_iconbox_content {
+  padding: 30px 20px 24px;
+ background-color:#D324A8;
+}
+
 .cs_iconbox.cs_style_4:hover .cs_btn.cs_style_1,
 .cs_iconbox.cs_style_4:hover .cs_iconbox_icon,
 .cs_iconbox.cs_style_4:hover .cs_iconbox_title,
