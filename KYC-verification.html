@@ -6,6 +6,8 @@
     <title>Sarafa Community Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="icon" href="Assets/Images/logo.png" type="image/x-icon">
 </head>
 <body>
     <!-- Header -->
@@ -80,7 +82,7 @@
                     Monthly Membership
                     <i class="fas fa-users"></i>
             </a>
-              <a href="KYC-verification.html" class="menu-item active">
+              <a href="KYC-verification.html" class="menu-item active cs_btn cs_style_1 cs_bg_1 cs_white_color effect_hover">
                   KYC Verification
                     <i class="fas fa-shield-alt"></i>                
               </a>
@@ -97,105 +99,109 @@
         <main class="main-content">
           <h1 class="page-title">KYC Verification</h1>
           
-          <form class="kyc-form" id="kycForm">
-              <!-- Section 1: Personal Information -->
-              <div class="kyc-section">
-                  <div class="kyc-section-title">
-                      <i class="fas fa-user"></i> Personal Information
+          <form class="kyc-form colorful" id="kycForm">
+              <!-- Step 1: Personal Information -->
+              <div class="kyc-step" id="kycStep1">
+                  <div class="kyc-section">
+                      <div class="kyc-section-title">
+                          <i class="fas fa-user"></i> Personal Information
+                      </div>
+                      <div class="kyc-fields-grid">
+                          <div class="form-group">
+                              <label for="fullName">Full Name *</label>
+                              <input type="text" id="fullName" name="fullName" class="kyc-input" placeholder="Enter full name" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="dob">Date of Birth *</label>
+                              <input type="date" id="dob" name="dob" class="kyc-input" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="state">State *</label>
+                              <input type="text" id="state" name="state" class="kyc-input" placeholder="State" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="city">City *</label>
+                              <input type="text" id="city" name="city" class="kyc-input" placeholder="City" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="postalCode">Postal Code *</label>
+                              <input type="text" id="postalCode" name="postalCode" class="kyc-input" placeholder="Postal Code" required>
+                          </div>
+                          <div class="form-group full-width">
+                              <label for="address">Full Address *</label>
+                              <textarea id="address" name="address" class="kyc-input" placeholder="Full Address" rows="3" required></textarea>
+                          </div>
+                      </div>
                   </div>
-                  <div class="kyc-fields-grid">
-                      <div class="form-group">
-                          <label for="fullName">Full Name *</label>
-                          <input type="text" id="fullName" name="fullName" class="kyc-input" placeholder="Enter full name" required>
-                      </div>
-                      <div class="form-group">
-                          <label for="dob">Date of Birth *</label>
-                          <input type="date" id="dob" name="dob" class="kyc-input" required>
-                      </div>
-                     
-                      <div class="form-group">
-                          <label for="state">State *</label>
-                          <input type="text" id="state" name="state" class="kyc-input" placeholder="State" required>
-                      </div>
-                      <div class="form-group">
-                          <label for="city">City *</label>
-                          <input type="text" id="city" name="city" class="kyc-input" placeholder="City" required>
-                      </div>
-                      <div class="form-group">
-                          <label for="postalCode">Postal Code *</label>
-                          <input type="text" id="postalCode" name="postalCode" class="kyc-input" placeholder="Postal Code" required>
-                      </div>
-                      <div class="form-group full-width">
-                          <label for="address">Full Address *</label>
-                          <textarea id="address" name="address" class="kyc-input" placeholder="Full Address" rows="3" required></textarea>
-                      </div>
+                  <div class="kyc-submit-section" style="text-align:right;">
+                      <button type="button" class="kyc-submit-btn" id="kycStep1Next">Save & Next <i class="fas fa-arrow-right"></i></button>
                   </div>
               </div>
-
-              <!-- Section 2: Shop Details & Workers -->
-              <div class="kyc-section">
-                  <div class="kyc-section-title">
-                      <i class="fas fa-store"></i> Shop Details & Workers
+              <!-- Step 2: Shop Details & Workers -->
+              <div class="kyc-step" id="kycStep2" style="display:none;">
+                  <div class="kyc-section">
+                      <div class="kyc-section-title">
+                          <i class="fas fa-store"></i> Shop Details & Workers
+                      </div>
+                      <div class="kyc-fields-grid">
+                          <div class="form-group">
+                              <label for="shopName">Shop Name *</label>
+                              <input type="text" id="shopName" name="shopName" class="kyc-input" placeholder="Shop Name" required>
+                          </div>
+                          <div class="form-group full-width">
+                              <label for="shopAddress">Shop Address *</label>
+                              <textarea id="shopAddress" name="shopAddress" class="kyc-input" placeholder="Shop Address" rows="3" required></textarea>
+                          </div>
+                          <div class="form-group">
+                              <label for="numWorkers">Number of Workers</label>
+                              <input type="number" id="numWorkers" name="numWorkers" class="kyc-input" min="0" placeholder="0">
+                          </div>
+                      </div>
+                      <div class="kyc-workers-section">
+                          <label>Workers' Details</label>
+                          <div id="workersContainer" class="workers-container">
+                              <!-- Workers will be added here dynamically -->
+                          </div>
+                          <button type="button" id="addWorkerBtn" class="add-worker-btn">
+                              <i class="fas fa-plus"></i> Add Worker
+                          </button>
+                      </div>
                   </div>
-                  <div class="kyc-fields-grid">
-                      <div class="form-group">
-                          <label for="shopOwner">Shop Owner *</label>
-                          <input type="text" id="shopOwner" name="shopOwner" class="kyc-input" placeholder="Owner Name" required>
+                  <div class="kyc-submit-section" style="display:flex; justify-content:space-between;">
+                      <button type="button" class="kyc-submit-btn" id="kycStep2Back"><i class="fas fa-arrow-left"></i> Back</button>
+                      <button type="button" class="kyc-submit-btn" id="kycStep2Next">Save & Next <i class="fas fa-arrow-right"></i></button>
+                  </div>
+              </div>
+              <!-- Step 3: KYC Documents -->
+              <div class="kyc-step" id="kycStep3" style="display:none;">
+                  <div class="kyc-section">
+                      <div class="kyc-section-title">
+                          <i class="fas fa-id-card"></i> KYC Documents
                       </div>
-                      <div class="form-group">
-                          <label for="shopName">Shop Name *</label>
-                          <input type="text" id="shopName" name="shopName" class="kyc-input" placeholder="Shop Name" required>
-                      </div>
-                      <div class="form-group full-width">
-                          <label for="shopAddress">Shop Address *</label>
-                          <textarea id="shopAddress" name="shopAddress" class="kyc-input" placeholder="Shop Address" rows="3" required></textarea>
-                      </div>
-                      <div class="form-group">
-                          <label for="numWorkers">Number of Workers</label>
-                          <input type="number" id="numWorkers" name="numWorkers" class="kyc-input" min="0" placeholder="0">
+                      <div class="kyc-fields-grid">
+                          <div class="form-group">
+                              <label for="aadhaarCard">Aadhaar Card *</label>
+                              <input type="file" id="aadhaarCard" name="aadhaarCard" class="kyc-input" accept="image/*,application/pdf" required>
+                              <small>Upload Aadhaar card image or PDF</small>
+                          </div>
+                          <div class="form-group">
+                              <label for="shopLicence">Shop Licence *</label>
+                              <input type="file" id="shopLicence" name="shopLicence" class="kyc-input" accept="image/*,application/pdf" required>
+                              <small>Upload shop licence image or PDF</small>
+                          </div>
+                          <div class="form-group">
+                              <label for="panCard">PAN Card *</label>
+                              <input type="file" id="panCard" name="panCard" class="kyc-input" accept="image/*,application/pdf" required>
+                              <small>Upload PAN card image or PDF</small>
+                          </div>
                       </div>
                   </div>
-                  
-                  <div class="kyc-workers-section">
-                      <label>Workers' Details</label>
-                      <div id="workersContainer" class="workers-container">
-                          <!-- Workers will be added here dynamically -->
-                      </div>
-                      <button type="button" id="addWorkerBtn" class="add-worker-btn">
-                          <i class="fas fa-plus"></i> Add Worker
+                  <div class="kyc-submit-section" style="display:flex; justify-content:space-between;">
+                      <button type="button" class="kyc-submit-btn" id="kycStep3Back"><i class="fas fa-arrow-left"></i> Back</button>
+                      <button type="submit" class="kyc-submit-btn" id="kycStep3Submit">
+                          <i class="fas fa-check"></i> Submit KYC
                       </button>
                   </div>
-              </div>
-
-              <!-- Section 3: KYC Documents -->
-              <div class="kyc-section">
-                  <div class="kyc-section-title">
-                      <i class="fas fa-id-card"></i> KYC Documents
-                  </div>
-                  <div class="kyc-fields-grid">
-                      <div class="form-group">
-                          <label for="aadhaarCard">Aadhaar Card *</label>
-                          <input type="file" id="aadhaarCard" name="aadhaarCard" class="kyc-input" accept="image/*,application/pdf" required>
-                          <small>Upload Aadhaar card image or PDF</small>
-                      </div>
-                      <div class="form-group">
-                          <label for="shopLicence">Shop Licence *</label>
-                          <input type="file" id="shopLicence" name="shopLicence" class="kyc-input" accept="image/*,application/pdf" required>
-                          <small>Upload shop licence image or PDF</small>
-                      </div>
-                      <div class="form-group">
-                          <label for="panCard">PAN Card *</label>
-                          <input type="file" id="panCard" name="panCard" class="kyc-input" accept="image/*,application/pdf" required>
-                          <small>Upload PAN card image or PDF</small>
-                      </div>
-                  </div>
-              </div>
-
-              <!-- Submit Button -->
-              <div class="kyc-submit-section">
-                  <button type="submit" class="kyc-submit-btn">
-                      <i class="fas fa-check"></i> Submit KYC
-                  </button>
               </div>
           </form>
       </main>

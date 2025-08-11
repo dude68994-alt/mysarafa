@@ -614,31 +614,6 @@ document.addEventListener('click', function(e) {
 
 console.log('Community Dashboard initialized successfully!');
 
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOMContentLoaded fired');
-  console.log('kycForm element:', document.getElementById('kycForm'));
-  
-  // Initialize KYC form if on KYC page
-  if (document.getElementById('kycForm')) {
-    console.log('Initializing KYC form...');
-    showStep(1);
-    updateProgress();
-    
-    // Handle form submission
-    document.getElementById('kycForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      if (validateStep(3)) {
-        // Submit the form
-        alert('KYC form submitted successfully!');
-        // Here you would typically send the data to your server
-      }
-    });
-  } else {
-    console.log('KYC form not found on this page');
-  }
-});
-
 // Add New Member Modal logic
 const addMemberModal = document.getElementById('addMemberModal');
 const closeAddMemberModal = document.getElementById('closeAddMemberModal');
@@ -906,10 +881,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // KYC Form submission
     const kycForm = document.getElementById('kycForm');
     if (kycForm) {
-        kycForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            handleKYCSubmission();
-        });
+        // Disabled old submit handler in favor of multi-step handler below
+        // kycForm.addEventListener('submit', function(e) {
+        //     e.preventDefault();
+        //     handleKYCSubmission();
+        // });
     }
 });
 
@@ -1078,4 +1054,116 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === profileModal) profileModal.style.display = 'none';
     };
   }
+});
+
+// --- KYC Multi-Step Form Logic ---
+document.addEventListener('DOMContentLoaded', function() {
+  const steps = [
+    document.getElementById('kycStep1'),
+    document.getElementById('kycStep2'),
+    document.getElementById('kycStep3')
+  ];
+  let currentStep = 0;
+  const formData = {};
+
+  function showStep(idx) {
+    steps.forEach((step, i) => {
+      if (step) step.style.display = (i === idx) ? '' : 'none';
+    });
+    currentStep = idx;
+  }
+
+  function validateStep(idx) {
+    // Basic validation: check required fields in the current step
+    const requiredInputs = steps[idx].querySelectorAll('[required]');
+    let valid = true;
+    requiredInputs.forEach(input => {
+      if (input.type === 'file') {
+        if (!input.files || input.files.length === 0) {
+          valid = false;
+          input.classList.add('input-error');
+        } else {
+          input.classList.remove('input-error');
+        }
+      } else if (!input.value) {
+        valid = false;
+        input.classList.add('input-error');
+      } else {
+        input.classList.remove('input-error');
+      }
+    });
+    return valid;
+  }
+
+  function saveStepData(idx) {
+    // Save all input values in the current step
+    const inputs = steps[idx].querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      if (input.type === 'file') {
+        formData[input.name] = input.files && input.files[0] ? input.files[0] : null;
+      } else {
+        formData[input.name] = input.value;
+      }
+    });
+  }
+
+  // Step 1 Next
+  const step1Next = document.getElementById('kycStep1Next');
+  if (step1Next) {
+    step1Next.addEventListener('click', function() {
+      if (validateStep(0)) {
+        saveStepData(0);
+        showStep(1);
+      } else {
+        showNotification('Please fill all required fields in this step.', 'error');
+      }
+    });
+  }
+  // Step 2 Back/Next
+  const step2Back = document.getElementById('kycStep2Back');
+  const step2Next = document.getElementById('kycStep2Next');
+  if (step2Back) {
+    step2Back.addEventListener('click', function() {
+      showStep(0);
+    });
+  }
+  if (step2Next) {
+    step2Next.addEventListener('click', function() {
+      if (validateStep(1)) {
+        saveStepData(1);
+        showStep(2);
+      } else {
+        showNotification('Please fill all required fields in this step.', 'error');
+      }
+    });
+  }
+  // Step 3 Back
+  const step3Back = document.getElementById('kycStep3Back');
+  if (step3Back) {
+    step3Back.addEventListener('click', function() {
+      showStep(1);
+    });
+  }
+  // On submit, validate last step and show success
+  const kycForm = document.getElementById('kycForm');
+  if (kycForm) {
+    kycForm.addEventListener('submit', function(e) {
+      if (!validateStep(2)) {
+        e.preventDefault();
+        showNotification('Please fill all required fields in this step.', 'error');
+        return;
+      }
+      saveStepData(2);
+      // You can now use formData for submission (e.g., AJAX)
+      showNotification('KYC form submitted successfully!', 'success');
+      // Optionally reset form and go to first step
+      setTimeout(() => {
+        kycForm.reset();
+        showStep(0);
+      }, 1000);
+      e.preventDefault();
+    });
+  }
+  // Show first step on load
+  showStep(0);
 });
