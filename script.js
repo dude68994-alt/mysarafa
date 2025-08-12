@@ -288,8 +288,6 @@ function showAnalyticsModal() {
   showNotification('Analytics feature coming soon!', 'info');
 }
 
-// Add role switcher for demo (remove in production)
-// function addRoleSwitcher() {
 //   const headerRight = document.querySelector('.header-right');
 //   if (headerRight && isUserLeader()) {
 //     const roleSwitcher = document.createElement('div');
@@ -494,12 +492,12 @@ function showDropdown(element, items) {
         dropdownItem.style.cssText = `
             padding: 8px 12px;
             cursor: pointer;
-            color: #374151;
+            color: #374252ff;
             border-bottom: 1px solid #f3f4f6;
         `;
         dropdownItem.textContent = item;
         
-        dropdownItem.addEventListener('mouseenter', function() {
+        dropdownItem.addEventListener('mouseenter', function(){
             this.style.backgroundColor = '#f3f4f6';
         });
         
@@ -663,51 +661,9 @@ if (addNewBtn && addMemberModal && closeAddMemberModal && addMemberForm) {
   };
 }
 
-// Email invitation functions
-function generateInvitationLink(name, email) {
-  // Generate a unique token for the invitation
-  const token = btoa(`${name}-${email}-${Date.now()}`).replace(/[^a-zA-Z0-9]/g, '');
-  const baseUrl = window.location.origin + window.location.pathname.replace('Index.html', '');
-  return `${baseUrl}signup.html?invite=${token}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
-}
 
-function sendInvitationEmail(name, email, invitationLink) {
-  // Create email content
-  const emailSubject = "You're invited to join Sarafa Community!";
-  const emailBody = `
-Dear ${name},
 
-You have been invited to join the Sarafa Community!
 
-Please click the following link to complete your registration:
-${invitationLink}
-
-This invitation link is valid for 7 days.
-
-Best regards,
-Sarafa Community Team
-  `.trim();
-
-  // Method 1: Try to use mailto link (opens user's default email client)
-  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-  
-  // Try to open the default email client
-  try {
-    window.open(mailtoLink, '_blank');
-  } catch (error) {
-    console.log('Could not open email client:', error);
-  }
-
-  // Method 2: Copy invitation link to clipboard for manual sending
-  navigator.clipboard.writeText(invitationLink).then(() => {
-    console.log('Invitation link copied to clipboard');
-  }).catch(err => {
-    console.log('Could not copy to clipboard:', err);
-  });
-
-  // Method 3: Show the invitation link in a modal for manual copying
-  showInvitationModal(name, email, invitationLink);
-}
 
 function showInvitationModal(name, email, invitationLink) {
   // Create modal to show invitation details
@@ -889,132 +845,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Function to add a worker field
-function addWorkerField() {
-    const workersContainer = document.getElementById('workersContainer');
-    const workerIndex = workersContainer.children.length;
-    
-    const workerField = document.createElement('div');
-    workerField.className = 'worker-field';
-    workerField.innerHTML = `
-        <div class="form-group">
-            <label for="workerName${workerIndex}">Worker Name</label>
-            <input type="text" id="workerName${workerIndex}" name="workerName${workerIndex}" class="kyc-input" placeholder="Enter worker name">
-        </div>
-        <div class="form-group">
-            <label for="workerPhone${workerIndex}">Phone Number</label>
-            <input type="tel" id="workerPhone${workerIndex}" name="workerPhone${workerIndex}" class="kyc-input" placeholder="Enter phone number">
-        </div>
-        <button type="button" class="remove-worker-btn" onclick="removeWorkerField(this)">
-            <i class="fas fa-trash"></i>
-        </button>
-    `;
-    
-    workersContainer.appendChild(workerField);
-    
-    // Update the number of workers input
-    const numWorkersInput = document.getElementById('numWorkers');
-    if (numWorkersInput) {
-        numWorkersInput.value = workersContainer.children.length;
-    }
-}
 
-// Function to remove a worker field
-function removeWorkerField(button) {
-    const workerField = button.closest('.worker-field');
-    workerField.remove();
-    
-    // Update the number of workers input
-    const workersContainer = document.getElementById('workersContainer');
-    const numWorkersInput = document.getElementById('numWorkers');
-    if (numWorkersInput && workersContainer) {
-        numWorkersInput.value = workersContainer.children.length;
-    }
-}
-
-// Function to update workers fields based on number input
-function updateWorkersFields(numWorkers) {
-    const workersContainer = document.getElementById('workersContainer');
-    if (!workersContainer) return;
-    
-    const currentWorkers = workersContainer.children.length;
-    
-    if (numWorkers > currentWorkers) {
-        // Add more workers
-        for (let i = currentWorkers; i < numWorkers; i++) {
-            addWorkerField();
-        }
-    } else if (numWorkers < currentWorkers) {
-        // Remove workers
-        const workersToRemove = currentWorkers - numWorkers;
-        for (let i = 0; i < workersToRemove; i++) {
-            const lastWorker = workersContainer.lastElementChild;
-            if (lastWorker) {
-                lastWorker.remove();
-            }
-        }
-    }
-}
-
-// Function to handle KYC form submission
-function handleKYCSubmission() {
-    // Get form data
-    const formData = new FormData(document.getElementById('kycForm'));
-    const formObject = {};
-    
-    for (let [key, value] of formData.entries()) {
-        formObject[key] = value;
-    }
-    
-    // Validate required fields
-    const requiredFields = ['fullName', 'dob', 'nationality', 'state', 'city', 'postalCode', 'address', 'shopOwner', 'shopName', 'shopAddress', 'aadhaarCard', 'shopLicence', 'panCard'];
-    const missingFields = [];
-    
-    requiredFields.forEach(field => {
-        if (!formObject[field] || formObject[field].trim() === '') {
-            missingFields.push(field);
-        }
-    });
-    
-    if (missingFields.length > 0) {
-        alert('Please fill in all required fields: ' + missingFields.join(', '));
-        return;
-    }
-    
-    // Validate file uploads
-    const fileFields = ['aadhaarCard', 'shopLicence', 'panCard'];
-    const missingFiles = [];
-    
-    fileFields.forEach(field => {
-        const fileInput = document.getElementById(field);
-        if (!fileInput.files || fileInput.files.length === 0) {
-            missingFiles.push(field);
-        }
-    });
-    
-    if (missingFiles.length > 0) {
-        alert('Please upload all required documents: ' + missingFiles.join(', '));
-        return;
-    }
-    
-    // Show success message
-    alert('KYC form submitted successfully! Your application is under review.');
-    
-    // Reset form
-    document.getElementById('kycForm').reset();
-    
-    // Clear workers container
-    const workersContainer = document.getElementById('workersContainer');
-    if (workersContainer) {
-        workersContainer.innerHTML = '';
-    }
-    
-    // Reset number of workers
-    const numWorkersInput = document.getElementById('numWorkers');
-    if (numWorkersInput) {
-        numWorkersInput.value = '';
-    }
-}
 
 // User avatar dropdown logic
 const userAvatar = document.getElementById('userAvatar');
@@ -1056,114 +887,3 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// --- KYC Multi-Step Form Logic ---
-document.addEventListener('DOMContentLoaded', function() {
-  const steps = [
-    document.getElementById('kycStep1'),
-    document.getElementById('kycStep2'),
-    document.getElementById('kycStep3')
-  ];
-  let currentStep = 0;
-  const formData = {};
-
-  function showStep(idx) {
-    steps.forEach((step, i) => {
-      if (step) step.style.display = (i === idx) ? '' : 'none';
-    });
-    currentStep = idx;
-  }
-
-  function validateStep(idx) {
-    // Basic validation: check required fields in the current step
-    const requiredInputs = steps[idx].querySelectorAll('[required]');
-    let valid = true;
-    requiredInputs.forEach(input => {
-      if (input.type === 'file') {
-        if (!input.files || input.files.length === 0) {
-          valid = false;
-          input.classList.add('input-error');
-        } else {
-          input.classList.remove('input-error');
-        }
-      } else if (!input.value) {
-        valid = false;
-        input.classList.add('input-error');
-      } else {
-        input.classList.remove('input-error');
-      }
-    });
-    return valid;
-  }
-
-  function saveStepData(idx) {
-    // Save all input values in the current step
-    const inputs = steps[idx].querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-      if (input.type === 'file') {
-        formData[input.name] = input.files && input.files[0] ? input.files[0] : null;
-      } else {
-        formData[input.name] = input.value;
-      }
-    });
-  }
-
-  // Step 1 Next
-  const step1Next = document.getElementById('kycStep1Next');
-  if (step1Next) {
-    step1Next.addEventListener('click', function() {
-      if (validateStep(0)) {
-        saveStepData(0);
-        showStep(1);
-      } else {
-        showNotification('Please fill all required fields in this step.', 'error');
-      }
-    });
-  }
-  // Step 2 Back/Next
-  const step2Back = document.getElementById('kycStep2Back');
-  const step2Next = document.getElementById('kycStep2Next');
-  if (step2Back) {
-    step2Back.addEventListener('click', function() {
-      showStep(0);
-    });
-  }
-  if (step2Next) {
-    step2Next.addEventListener('click', function() {
-      if (validateStep(1)) {
-        saveStepData(1);
-        showStep(2);
-      } else {
-        showNotification('Please fill all required fields in this step.', 'error');
-      }
-    });
-  }
-  // Step 3 Back
-  const step3Back = document.getElementById('kycStep3Back');
-  if (step3Back) {
-    step3Back.addEventListener('click', function() {
-      showStep(1);
-    });
-  }
-  // On submit, validate last step and show success
-  const kycForm = document.getElementById('kycForm');
-  if (kycForm) {
-    kycForm.addEventListener('submit', function(e) {
-      if (!validateStep(2)) {
-        e.preventDefault();
-        showNotification('Please fill all required fields in this step.', 'error');
-        return;
-      }
-      saveStepData(2);
-      // You can now use formData for submission (e.g., AJAX)
-      showNotification('KYC form submitted successfully!', 'success');
-      // Optionally reset form and go to first step
-      setTimeout(() => {
-        kycForm.reset();
-        showStep(0);
-      }, 1000);
-      e.preventDefault();
-    });
-  }
-  // Show first step on load
-  showStep(0);
-});
