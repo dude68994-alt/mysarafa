@@ -1,4 +1,4 @@
-app = "sarafa-frontend"
+app = "sarafa-frontend" 
 primary_region = "bom"
 
 [build]
