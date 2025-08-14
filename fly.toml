@@ -1,8 +1,8 @@
-app = "sarafa-frontend" 
+app = "mysarafa" 
 primary_region = "bom"
 
 [build]
-builder = "heroku/buildpack-nodejs"
+builder = "paketobuildpacks/builder:base"
 
 [http_service]
 internal_port = 8080
