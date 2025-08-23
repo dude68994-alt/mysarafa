@@ -1,2 +1,2 @@
 FROM nginx:alpine
-COPY public /usr/share/nginx/html
+COPY landing-page/web/html/Mysarafa /usr/share/nginx/html
