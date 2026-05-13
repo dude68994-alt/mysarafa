@@ -2536,6 +2536,10 @@ hr {
   transform: translateY(100px);
   transition: all 0.3s ease;
   background-color: var(--theme-color-2);
+
+  z-index: 1;
+  /* z-index: -9999 !important; */
+  pointer-events: auto;
 }
 
 .cs_scrollup.cs_scrollup_show {
@@ -2704,13 +2708,30 @@ hr {
   }
 }
 
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   @media (min-width: 992px) {
 
     .cs_hero_img img {
       transform: scale(1.08);
     }
 
+  }
+} */
+@media (min-width: 1400px) {
+  .cs_hero_img img {
+    transform: scale(1.08);
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1350px) {
+
+  .custom-container {
+    padding-left: 40px;
+  }
+
+  .cs_hero_img img {
+    transform: scale(1);
+    max-width: 620px;
   }
 }
 
@@ -8868,6 +8889,20 @@ li {
   .how_row:last-child {
     margin-bottom: 0;
   }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+
+
+  .how_img img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
 }
 
 /* About us - Hero section */
