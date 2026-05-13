@@ -8891,8 +8891,12 @@ li {
   }
 }
 
+
 @media (min-width: 426px) and (max-width: 768px) {
 
+  .how_img {
+    padding: 0 25px;
+  }
 
   .how_img img {
     width: 100%;
