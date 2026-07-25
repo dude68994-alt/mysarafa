@@ -1,4 +1,4 @@
-name: Deploy to Hostinger VPS
+name: Deploy Static Website
 
 on:
   push:
@@ -16,18 +16,11 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            set -e
 
+          script: |
             cd /var/www/mysarafa.com/mysarafa
 
             echo "Pulling latest code..."
             git pull origin main
-
-            echo "Installing dependencies..."
-            npm install
-
-            echo "Restarting PM2..."
-            pm2 restart mysarafa-app
 
             echo "Deployment completed successfully!"
