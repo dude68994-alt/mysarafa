@@ -436,65 +436,66 @@
   }
   /*--------------------------------------------------------------
     13. Dynamic contact form/*--------------------------------------------------------------*/
-if ($.exists('#cs_form')) {
-  const form = document.getElementById('cs_form');
+  if ($.exists('#cs_form')) {
+    const form = document.getElementById('cs_form');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    const formData = new FormData(form);
-    const object = {};
-    formData.forEach((value, key) => {
-      object[key] = value;
-    });
+      const formData = new FormData(form);
+      const object = {};
+      formData.forEach((value, key) => {
+        object[key] = value;
+      });
 
-    Swal.fire({
-      title: 'Submitting...',
-      text: 'Please wait while we process your request.',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
+      Swal.fire({
+        title: 'Submitting...',
+        text: 'Please wait while we process your request.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
-    fetch('https://app.mysarafa.com/superadmin/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(object),
-    })
-      .then(async response => {
-        let json = await response.json();
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Submitted!',
-            text: json.message,
-            confirmButtonColor: '#3085d6'
-          });
-        } else {
+      fetch('https://app.mysarafa.com/superadmin/contact', {
+      // fetch('http://localhost:5001/superadmin/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(object),
+      })
+        .then(async response => {
+          let json = await response.json();
+          if (response.ok) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Submitted!',
+              text: json.message,
+              confirmButtonColor: '#3085d6'
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: json.message,
+              confirmButtonColor: '#d33'
+            });
+          }
+        })
+        .catch(error => {
+          console.error(error);
           Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: json.message,
+            title: 'Something went wrong!',
+            text: 'Please try again later.',
             confirmButtonColor: '#d33'
           });
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Something went wrong!',
-          text: 'Please try again later.',
-          confirmButtonColor: '#d33'
+        })
+        .finally(() => {
+          form.reset();
         });
-      })
-      .finally(() => {
-        form.reset();
-      });
-  });
-}
+    });
+  }
 })(jQuery); 
